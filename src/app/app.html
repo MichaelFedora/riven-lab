@@ -1,12 +1,14 @@
 <div id='app'>
 
-  <h1><a href='https://michaelfedora.github.io/riven-lab/'>Riven Lab</a></h1>
-  <h3>Generate, customize, and share riven builds!</h3>
-  <div id='buttons'>
-    <md-button class='md-primary' @click='randomize()'><md-icon>refresh</md-icon>&nbsp;Randomize</md-button>
-    <md-button class='md-primary' @click='reset()'><md-icon>delete</md-icon>&nbsp;Clear</md-button>
+  <div id='header'>
+    <h1><a href='https://michaelfedora.github.io/riven-lab/'>Riven Lab</a></h1>
+    <h3>Generate, customize, and share riven builds!</h3>
+    <div id='buttons'>
+      <md-button class='md-primary' @click='randomize()'><md-icon>refresh</md-icon>&nbsp;Randomize</md-button>
+      <md-button class='md-primary' @click='reset()'><md-icon>delete</md-icon>&nbsp;Clear</md-button>
+    </div>
+    <hr><br>
   </div>
-  <hr><br>
 
   <div id='content'>
     <div id='riven-content'>
@@ -80,6 +82,15 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id='footer'>
+    <br><hr>
+    <div id='content'>
+      <span>Created by <a href='https://michaelfedora.github.io/'>MichaelFedora</a></span>
+      <span>Riven names and statistics are taken from the <a href='https://warframe.wikia.com/'>Warframe Wikia</a></span>
+      <span>This site is neither owned nor affliated with Digital Extremes in any way.</span>
     </div>
   </div>
 </div>

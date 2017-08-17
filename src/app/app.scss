@@ -2,15 +2,27 @@ $dwidth: 777px;
 
 div#app {
 
-  > h1 > a {
+  padding: 2rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  min-height: 100vh;
+
+  > * {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  a {
     text-decoration: none;
     &:hover {
       color: #BA68C8;
     }
   }
 
-  padding: 2rem;
   > div#content {
+
+    flex-grow: 1;
 
     display: flex;
     @media(max-width: $dwidth) {
@@ -67,6 +79,19 @@ div#app {
         display: flex;
         justify-content: center;
       }
+    }
+  }
+
+  > div#footer > #content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    @media(max-width: 400px) {
+      flex-flow: column;
+      flex-wrap: nowrap;
+    }
+    > * {
+      margin: 0.5rem 1rem;
     }
   }
 }
