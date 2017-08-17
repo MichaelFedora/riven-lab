@@ -14,7 +14,7 @@ module.exports = function(env) {
     output: {
       filename: '[name].[chunkhash].js', // [name].[chunkhash].js
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
+      publicPath: '/riven-lab/'
     },
     resolve: {
       /*alias: {

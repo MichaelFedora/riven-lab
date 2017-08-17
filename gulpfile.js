@@ -10,7 +10,7 @@ var webpackConfig = require('./webpack.config.js');
 var webpackStream = require('webpack-stream'); // packing!
 var webpack = require('webpack');
 
-let destBuild = 'dist';
+let destBuild = 'docs';
 
 gulp.task('clean', () => {
   return del([destBuild + '/**/*']);
