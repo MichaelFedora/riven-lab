@@ -1,6 +1,14 @@
 $dwidth: 777px;
 
 div#app {
+
+  > h1 > a {
+    text-decoration: none;
+    &:hover {
+      color: #BA68C8;
+    }
+  }
+
   padding: 2rem;
   > div#content {
 

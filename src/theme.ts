@@ -10,14 +10,15 @@ export default (Vue as any).material.registerTheme({
     primary: {
       color: 'purple',
       hue: 300,
-      textColor: 'white'
     },
-    accent: 'light-blue',
+    accent: {
+      color: 'purple',
+      hue: 200,
+    },
     warn: 'deep-orange',
     background: {
       color: 'grey',
       hue: 900,
-      textColor: 'white'
     }
   }
 });
