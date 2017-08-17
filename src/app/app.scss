@@ -59,7 +59,7 @@ div#app {
       }
     }
 
-    > div#riven {
+    > div#riven-content {
       flex-shrink: 1;
       min-width: 280px;
       @media(max-width: $dwidth) {

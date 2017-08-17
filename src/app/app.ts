@@ -43,21 +43,20 @@ interface IApp extends Vue {
   polarity: string;
   stats: { name: string, value: number }[];
 
-  costStr: string;
   polarityIdx: number;
 
   polarities: string[];
   statTypes: typeof statTypes;
 
-  statValueStr: string[];
-  query: {[key: string]: string};
-  updateQuery: boolean;
+  updatedRoute: boolean;
 
   negatives: number;
   hasDuplicates: boolean;
   incompats: string[];
 
+  randomize(): void;
   setFromRoute(): void;
+  updateQuery(): void;
 }
 
 export default {
@@ -69,15 +68,12 @@ export default {
       cost: 10,
       stats: [],
 
-      costStr: '10',
       polarityIdx: 0,
 
       polarities: polarities,
       statTypes: statTypes,
 
-      statValueStr: ['', '', '', ''],
-      query: {},
-      updateQuery: false,
+      updatedRoute: false,
     } as IApp;
   },
   computed: {
@@ -95,53 +91,17 @@ export default {
     }
   },
   watch: {
-    itemName(n) {
-      this.query['itemName'] = n;
-      this.updateQuery = true;
-    },
-    itemType(n) {
-      this.query['itemType'] = n;
-      this.updateQuery = true;
-    },
-    polarityIdx(n) {
-      this.query['polarity'] = polarities[n];
-      this.updateQuery = true;
-    },
-    costStr() {
-      if('' + this.cost === this.costStr) return;
-      const i = Number.parseInt(this.costStr);
-      if((i || i === 0) && i >= 10 && i <= 18) this.cost = i;
-      else this.costStr = '' + i;
-      this.query['cost'] = this.costStr;
-      this.updateQuery = true;
-    },
     cost(n, o) {
-      if('' + this.cost !== this.costStr) { this.query['cost'] = this.costStr = '' + this.cost; }
+      if(o < 10 || o > 18) return;
+      if(n < 10) { this.$nextTick(() => this.cost = 10); n = 10; }
+      if(n > 18) { this.$nextTick(() => this.cost = 18); n = 18; }
       o -= 9;
       n -= 9;
-      this.stats.forEach((a, i) => {
-        a.value = a.value / o * n;
-        this.query[a.name] = this.statValueStr[i] = a.value.toFixed(2);
-      });
-      this.updateQuery = true;
-    },
-    statValueStr(newSVals) {
-      for(let i = 0, statValue = newSVals[i]; i < newSVals.length && i < this.stats.length; i++, statValue = newSVals[i]) {
-        if('' + this.stats[i].value === statValue) continue;
-        const p = Number.parseFloat(statValue);
-        if(p || p === 0) this.stats[i].value = p;
-        this.query[this.stats[i].name] = statValue;
-        this.updateQuery = true;
-      }
-    },
-    stats(newStats, oldStats) {
-      for(let i = 0, stat = newStats[i]; i < newStats.length; i++, stat = newStats[i]) {
-        if(this.statValueStr[i] === stat.value.toFixed(2)) continue;
-        this.query[stat.name] = this.statValueStr[i] = stat.value.toFixed(2);
-        this.updateQuery = true;
-      }
+      this.stats.forEach((a, i) => a.value = a.value / o * n);
     },
     $route(n, o) {
+      if(this.updatedRoute) { this.updatedRoute = false; return; }
+
       if(this.$route.query.itemName && this.$route.query.itemName !== this.itemName)
       this.itemName = this.$route.query.itemName || this.polarity;
 
@@ -170,53 +130,10 @@ export default {
 
     const fromRoute = this.setFromRoute();
 
-    if(!fromRoute) {
-      const sampleItem = sampleItems[Math.floor(Math.random() * 6)];
+    if(!fromRoute)
+      this.randomize();
 
-      this.itemName = sampleItem.name;
-      this.itemType = sampleItem.type;
-      this.cost = 10 + Math.floor(Math.random() * 9);
-      this.costStr = '' + this.cost;
-      this.polarityIdx = Math.floor(Math.random() * polarities.length);
-      this.$nextTick(() => { // gets around getting multiplied by cost twice
-        this.stats = (() => {
-          const amt = Math.floor(Math.random() * 3 + 2);
-          const negative = (amt >= 4 || amt === 3 && Math.floor(Math.random())) ? true : false;
-          const ret: { name: string, value: number }[] = [];
-          for(let i = 0; i < amt; i++) {
-            let s = statTypes[Math.floor(Math.random() * statTypes.length)];
-            while(ret.find(a => a.name === s.name) || !isCompat(this.itemType, s.type))
-              s = statTypes[Math.floor(Math.random() * statTypes.length)];
-            const val = Math.round((Math.random() * 200 + 100) * (this.cost - 9)) / 10;
-            if(i === amt - 1 && negative) ret.push({ name: s.name, value: -val });
-            else ret.push({ name: s.name, value: val });
-          }
-          return ret;
-        })();
-
-        this.stats.forEach((a, i) => this.statValueStr[i] = a.value.toFixed(2));
-      });
-    }
-
-    this.$nextTick(() => {
-      this.query['itemName'] = this.itemName;
-      this.query['itemType'] = '' + this.itemType;
-      this.query['cost'] = this.costStr;
-      this.query['polarity'] = polarities[this.polarityIdx];
-      this.stats.forEach(a => this.query[a.name] = a.value.toFixed(2));
-      this.updateQuery = true;
-    });
-  },
-  updated() {
-    if(this.updateQuery) {
-      const toRemove = [];
-      for(const key in this.query) if(!['itemName', 'itemType', 'cost', 'polarity'].find(a => a === key) && this.$route.query[key])
-        if(!this.stats.find(a => a.name === key)) toRemove.push(key);
-      for(const key of toRemove)
-          delete this.query[key];
-      this.$router.replace({ path: this.$route.path, query: this.query });
-      this.updateQuery = false;
-    }
+    this.$nextTick(() => this.updateQuery());
   },
   methods: {
     setFromRoute() {
@@ -246,14 +163,57 @@ export default {
 
       return changed;
     },
+    randomize() {
+      const sampleItem = sampleItems[Math.floor(Math.random() * 6)];
+
+      this.itemName = sampleItem.name;
+      this.itemType = sampleItem.type;
+      this.cost = 10 + Math.floor(Math.random() * 9);
+      this.polarityIdx = Math.floor(Math.random() * polarities.length);
+      this.$nextTick(() => { // gets around getting multiplied by cost twice
+        this.stats = (() => {
+          const amt = Math.floor(Math.random() * 3 + 2);
+          const negative = (amt >= 4 || amt === 3 && Math.floor(Math.random())) ? true : false;
+          const ret: { name: string, value: number }[] = [];
+          for(let i = 0; i < amt; i++) {
+            let s = statTypes[Math.floor(Math.random() * statTypes.length)];
+            while(ret.find(a => a.name === s.name) || !isCompat(this.itemType, s.type))
+              s = statTypes[Math.floor(Math.random() * statTypes.length)];
+            const val = Math.round((Math.random() * 200 + 100) * (this.cost - 9)) / 10;
+            if(i === amt - 1 && negative) ret.push({ name: s.name, value: -val });
+            else ret.push({ name: s.name, value: val });
+          }
+          return ret;
+        })();
+        this.updateQuery();
+      });
+    },
+    reset() {
+      this.itemName = '';
+      this.itemType = 0;
+      this.cost = 10;
+      this.polarityIdx = 0;
+      this.stats.splice(0, this.stats.length);
+      this.updateQuery();
+    },
+    updateQuery() {
+      const query: {[key: string]: string} = {
+        itemName: this.itemName,
+        itemType: '' + this.itemType,
+        cost: '' + this.cost,
+        polarity: polarities[this.polarityIdx],
+      };
+      this.stats.forEach(a => query[a.name] = a.value.toFixed(2));
+      this.$router.replace({ path: this.$route.path, query: query });
+      this.updatedRoute = true;
+    },
     getDisplayName(stat) {
       if(stat.display_name instanceof Array) return stat.display_name[this.itemType];
       else return stat.display_name;
     },
     removeStat(idx) {
       const deleted = this.stats.splice(idx, 1);
-      if(deleted.length) delete this.query[deleted[0].name];
-      this.updateQuery = true;
+      this.updateQuery();
     },
     addStat() {
       let s = statTypes[Math.floor(Math.random() * statTypes.length)];
@@ -266,6 +226,7 @@ export default {
         val = -val;
 
       this.stats.push({ name: s.name, value: val });
+      this.updateQuery();
     }
   }
 } as ComponentOptions<IApp>;
