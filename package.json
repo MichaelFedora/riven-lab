@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "dom-to-image": "^2.5.2",
     "headroom.js": "^0.9.4",
     "moment": "^2.18.1",
     "vee-validate": "^2.0.0-rc.13",
