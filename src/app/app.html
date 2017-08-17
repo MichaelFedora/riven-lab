@@ -50,14 +50,14 @@
           <md-button v-if='stats.length < 4' @click='addStat()' class='md-icon-button md-primary'><md-icon>add</md-icon></md-button>
         </div>
         <div id='errors'>
-            <span v-if='stats.length < 2'>Must have at least 2 stats</span>
-            <span v-if='stats.length === 2 && negatives > 0'>Cannot have a negative stat with 2 stats</span>
-            <span v-if='stats.length === 4 && negatives < 1'>Must have a negative stat with 4 stats</span>
-            <span v-if='stats.length >= 3 && negatives > 1'>Can only have one negative stat (currently: {{negatives}})</span>
-            <span v-if='hasDuplicates'>Cannot have more than one stat with a particular name</span>
-            <span v-if='stats.length > 4'>Cannot have more than 4 stats</span>
-            <span v-for='ic of incompats'>Stat "{{ic}}" is incompatible with current weapon type</span>
-          </div>
+          <span v-if='stats.length < 2'>Must have at least 2 stats</span>
+          <span v-if='stats.length === 2 && negatives > 0'>Cannot have a negative stat with 2 stats</span>
+          <span v-if='stats.length === 4 && negatives < 1'>Must have a negative stat with 4 stats</span>
+          <span v-if='stats.length >= 3 && negatives > 1'>Can only have one negative stat (currently: {{negatives}})</span>
+          <span v-if='hasDuplicates'>Cannot have more than one stat with a particular name</span>
+          <span v-if='stats.length > 4'>Cannot have more than 4 stats</span>
+          <span v-for='ic of incompats'>Stat "{{ic}}" is incompatible with current weapon type</span>
+        </div>
         <div id='collection'>
           <div class='stat' v-for='(stat, i) of stats' :key='i'>
             <md-input-container>

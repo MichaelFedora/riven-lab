@@ -134,7 +134,7 @@ export default {
         this.updateQuery = true;
       }
     },
-    stats(newStats) {
+    stats(newStats, oldStats) {
       for(let i = 0, stat = newStats[i]; i < newStats.length; i++, stat = newStats[i]) {
         if(this.statValueStr[i] === stat.value.toFixed(2)) continue;
         this.query[stat.name] = this.statValueStr[i] = stat.value.toFixed(2);
@@ -162,7 +162,7 @@ export default {
         if(!val && val !== 0) continue;
         stats.push({ name: key, value: val });
       }
-      if(stats.length > 0 && !stats.every((a, ai) => stats[ai].name === this.stats[ai].name))
+      if(stats.length > 0 && !stats.every((a, ai) => this.stats[ai] && stats[ai].name === this.stats[ai].name))
         this.$nextTick(() => this.stats.splice(0, this.stats.length, ...stats));
     }
   },
@@ -209,7 +209,12 @@ export default {
   },
   updated() {
     if(this.updateQuery) {
-      this.$router.replace({ path: this.$route.fullPath, query: this.query });
+      const toRemove = [];
+      for(const key in this.query) if(!['itemName', 'itemType', 'cost', 'polarity'].find(a => a === key) && this.$route.query[key])
+        if(!this.stats.find(a => a.name === key)) toRemove.push(key);
+      for(const key of toRemove)
+          delete this.query[key];
+      this.$router.replace({ path: this.$route.path, query: this.query });
       this.updateQuery = false;
     }
   },
@@ -246,7 +251,9 @@ export default {
       else return stat.display_name;
     },
     removeStat(idx) {
-      this.stats.splice(idx, 1);
+      const deleted = this.stats.splice(idx, 1);
+      if(deleted.length) delete this.query[deleted[0].name];
+      this.updateQuery = true;
     },
     addStat() {
       let s = statTypes[Math.floor(Math.random() * statTypes.length)];
