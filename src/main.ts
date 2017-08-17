@@ -19,7 +19,7 @@ import AppComponent from './app/app';
 console.log('Environment:', process.env.NODE_ENV);
 
 const v = new Vue({
-  router: new VueRouter({ mode: 'hash' }),
+  router: new VueRouter({ mode: 'history' }),
   el: '#app',
   components: { AppComponent },
   render: h => h(AppComponent)
