@@ -23,10 +23,20 @@ for(const key in rivenMap) if(rivenMap[key] && typeof rivenMap[key] === 'object'
 const sampleItems = [
   { name: 'Opticor', type: 0 },
   { name: 'Paris', type: 0 },
+  { name: 'Braton', type: 0 },
+  { name: 'Lenz', type: 0 },
+  { name: 'Vectis', type: 0 },
+
   { name: 'Lato', type: 1 },
+  { name: 'Lex', type: 1 },
   { name: 'Twin Grakatas', type: 1 },
+  { name: 'AkZani', type: 1 },
+
   { name: 'Bo', type: 2 },
   { name: 'War', type: 2 },
+  { name: 'Orthos', type: 2 },
+  { name: 'Reaper Prime', type: 2 },
+  { name: 'Nikana', type: 2 },
 ];
 
 const polarities = [
@@ -58,6 +68,7 @@ interface IApp extends Vue {
   setFromRoute(): void;
   updateQuery(): void;
   updateSelectText(): void;
+  reroll(): void;
 }
 
 export default {
@@ -171,29 +182,30 @@ export default {
       return changed;
     },
     randomize() {
-      const sampleItem = sampleItems[Math.floor(Math.random() * 6)];
+      const sampleItem = sampleItems[Math.floor(Math.random() * sampleItems.length)];
 
       this.itemName = sampleItem.name;
       this.itemType = sampleItem.type;
       this.cost = 10 + Math.floor(Math.random() * 9);
       this.polarityIdx = Math.floor(Math.random() * polarities.length);
-      this.$nextTick(() => { // gets around getting multiplied by cost twice
-        this.stats = (() => {
-          const amt = Math.floor(Math.random() * 3 + 2);
-          const negative = (amt >= 4 || amt === 3 && Math.floor(Math.random())) ? true : false;
-          const ret: { name: string, value: number }[] = [];
-          for(let i = 0; i < amt; i++) {
-            let s = statTypes[Math.floor(Math.random() * statTypes.length)];
-            while(ret.find(a => a.name === s.name) || !isCompat(this.itemType, s.type))
-              s = statTypes[Math.floor(Math.random() * statTypes.length)];
-            const val = Math.round((Math.random() * 200 + 100) * (this.cost - 9)) / 10;
-            if(i === amt - 1 && negative) ret.push({ name: s.name, value: -val });
-            else ret.push({ name: s.name, value: val });
-          }
-          return ret;
-        })();
-        this.updateQuery();
-      });
+      this.$nextTick(() => this.reroll()); // gets around getting multiplied by cost twice & updates the query already
+    },
+    reroll() {
+      this.stats = (() => {
+        const amt = Math.floor(Math.random() * 3 + 2);
+        const negative = (amt >= 4 || amt === 3 && Math.floor(Math.random())) ? true : false;
+        const ret: { name: string, value: number }[] = [];
+        for(let i = 0; i < amt; i++) {
+          let s = statTypes[Math.floor(Math.random() * statTypes.length)];
+          while(ret.find(a => a.name === s.name) || !isCompat(this.itemType, s.type))
+            s = statTypes[Math.floor(Math.random() * statTypes.length)];
+          const val = Math.round((Math.random() * 200 + 100) * (this.cost - 9)) / 10;
+          if(i === amt - 1 && negative) ret.push({ name: s.name, value: -val });
+          else ret.push({ name: s.name, value: val });
+        }
+        return ret;
+      })();
+      this.updateQuery();
     },
     reset() {
       this.itemName = '';

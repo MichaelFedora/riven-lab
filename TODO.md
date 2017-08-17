@@ -10,5 +10,5 @@ domtoimage.toPng(node)
     link.click();
   });
 ```
-- Add some more Weapon Names / Types... because why not...
 - Add some form of persistance?
+- Add some more Weapon Names / Types... because why not...
