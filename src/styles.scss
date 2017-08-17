@@ -1,0 +1,27 @@
+$textcolor: rgba(255, 255, 255, .87);
+
+body {
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  background-color: #212121;
+  color: $textcolor;
+}
+
+.md-input-container,
+.md-input-container.md-has-value {
+  > input, input,
+  > label, label {
+    color: $textcolor;
+  }
+  &::after {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+div.two-inputs {
+  @media(min-width: 400px) {
+    display: flex;
+    > * {
+      flex-basis: 50%;
+    }
+  }
+}

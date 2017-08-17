@@ -1,0 +1,64 @@
+$dwidth: 777px;
+
+div#app {
+  padding: 2rem;
+  > div#content {
+
+    display: flex;
+    @media(max-width: $dwidth) {
+      flex-wrap: wrap;
+    }
+
+    > div#form {
+      flex-grow: 1;
+      @media(max-width: $dwidth) {
+        margin-top: 3rem;
+        width: 100%;
+      }
+      @media(min-width: $dwidth) {
+        margin-left: 3rem;
+      }
+
+      div#polarity.md-input-container {
+        span.md-select-value {
+          text-transform: capitalize;
+        }
+      }
+
+      > div#stats {
+        > #title {
+          display: flex;
+          align-items: center;
+        }
+        > #errors {
+          display: flex;
+          flex-flow: column;
+          color: #FF5722;
+        }
+        > #collection {
+          > div.stat {
+            display: flex;
+            align-items: center;
+            @media(max-width: 500px) {
+              flex-wrap: wrap;
+              > :nth-child(2) {
+                flex-grow: 1;
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    > div#riven {
+      flex-shrink: 1;
+      min-width: 280px;
+      @media(max-width: $dwidth) {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+<div id='app'>
+
+  <h1>Riven Lab</h1>
+  <h3>Generate, customize, and share riven builds!</h3>
+  <hr><br>
+
+  <div id='content'>
+    <div id='riven'>
+      <riven :itemName='itemName' :itemType='itemType' :cost='cost' :polarity='polarity' :stats='stats'></riven>
+    </div>
+
+    <div id='form'>
+      <div class='two-inputs'>
+        <md-input-container :class='{"md-input-invalid": errors.has("itemName")}'>
+          <label>Item Name</label>
+          <md-input name='itemName' type='text' v-model='itemName' v-validate='"required"'></md-input>
+          <span class='md-error'>Required</span>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Item Type</label>
+          <md-select name='itemType' id='itemType' v-model='itemType'>
+            <md-option :value='0'>Primary</md-option>
+            <md-option :value='1'>Secondary</md-option>
+            <md-option :value='2'>Melee</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div class='two-inputs'>
+        <md-input-container :class='{"md-input-invalid": errors.has("zip")}'>
+          <label>Cost (10 - 18)</label>
+          <md-input name='cost' type='number' v-validate='"required|between:10,18"' min='10' max='18' v-model='costStr'></md-input>
+          <span class='md-error'>Must be between 10 and 18</span>
+        </md-input-container>
+
+        <md-input-container id='polarity'>
+          <label>Polarity</label>
+          <md-select name='polarity' id='polarity' v-model='polarityIdx'>
+            <md-option v-for='(p, i) of polarities' :key='i' :value='i'>
+              <span style='text-transform: capitalize'>{{p}}</span>
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div id='stats'>
+        <div id='title'>
+          <label>Stats</label>
+          <md-button v-if='stats.length < 4' @click='addStat()' class='md-icon-button md-primary'><md-icon>add</md-icon></md-button>
+        </div>
+        <div id='errors'>
+            <span v-if='stats.length < 2'>Must have at least 2 stats</span>
+            <span v-if='stats.length === 2 && negatives > 0'>Cannot have a negative stat with 2 stats</span>
+            <span v-if='stats.length === 4 && negatives < 1'>Must have a negative stat with 4 stats</span>
+            <span v-if='stats.length >= 3 && negatives > 1'>Can only have one negative stat (currently: {{negatives}})</span>
+            <span v-if='hasDuplicates'>Cannot have more than one stat with a particular name</span>
+            <span v-if='stats.length > 4'>Cannot have more than 4 stats</span>
+            <span v-for='ic of incompats'>Stat "{{ic}}" is incompatible with current weapon type</span>
+          </div>
+        <div id='collection'>
+          <div class='stat' v-for='(stat, i) of stats' :key='i'>
+            <md-input-container>
+              <label>Name</label>
+              <md-select name='statName' id='statName' v-model='stat.name'>
+                <md-option v-for='s of statTypes' :key='s.name' :value='s.name'>
+                  <span style='text-transform: capitalize'>{{getDisplayName(s)}}</span>
+                </md-option>
+              </md-select>
+            </md-input-container>
+            <md-input-container>
+              <label>Value</label>
+              <md-input name='statValue' type='number' step="any" v-model='statValueStr[i]'></md-input>
+            </md-input-container>
+            <md-button class='md-icon-button md-warn' @click='removeStat(i)'><md-icon>remove</md-icon></md-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

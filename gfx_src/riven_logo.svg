@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="300"
+   viewBox="0 0 79.374999 79.375003"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="riven_logo.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="7.3099811"
+     inkscape:cy="135.7917"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer4"
+     showgrid="false"
+     units="px"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1278"
+     inkscape:window-height="1008"
+     inkscape:window-x="1273"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     objecttolerance="20">
+    <sodipodi:guide
+       position="37.041667,50.270834"
+       orientation="0,1"
+       id="guide4522"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="37.041667,50.270834"
+       orientation="1,0"
+       id="guide4524"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="RivenLogo"
+     style="display:inline"
+     transform="translate(0,45.508334)">
+    <path
+       style="fill:#ffffff;stroke:#ba68c8;stroke-width:2.04910517px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.97647059"
+       d="m 41.048687,-35.909939 -7.664105,8.200473 -12.869726,0.173972 -14.0461161,-5.827101 16.5695591,27.3205768 -6.125523,9.102833 13.67596,0.72839 L 41.410898,23.821878 53.299734,3.0608148 66.629421,2.3324298 57.62222,-5.3136304 73.471375,-28.263882 45.733383,-28.626061 Z m -14.766521,13.783026 6.853895,0.181088 -2.547325,6.193312 z m 30.257462,1.513115 -4.680724,6.740605 -2.523442,-6.374398 z m -14.949623,3.460848 6.666818,11.2920217 -13.508775,0.3621822 z M 43.731347,2.1432908 41.231789,7.6162594 39.070534,2.3324298 Z"
+       id="path4524"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccc" />
+  </g>
+</svg>

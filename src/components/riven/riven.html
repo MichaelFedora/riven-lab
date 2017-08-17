@@ -1,0 +1,18 @@
+<div id='riven'>
+  <div id='cost'>
+    <span>{{cost}}<md-icon :md-src='"/assets/gfx/polarities/" + polarity + ".svg"'></md-icon></span>
+  </div>
+  <div id='image'>
+    <md-image md-src='/assets/gfx/riven_logo.svg'></md-image>
+  </div>
+  <div id='label'>
+    <span>{{itemName}} {{title}}</span>
+  </div>
+  <div id='stats'>
+    <span v-for='stat in statList'>{{stat}}</span>
+  </div>
+  <div id='level'>
+    <span v-for='i in 8' :class='{ y: (i + 10) &lt;= cost }'></span>
+    <div v-if='cost >= 18'></div>
+  </div>
+</div>
