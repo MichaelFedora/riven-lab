@@ -13,7 +13,7 @@ module.exports = function(env) {
     },
     output: {
       filename: '[name].[chunkhash].js', // [name].[chunkhash].js
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'docs'),
       publicPath: ''
     },
     resolve: {
@@ -35,6 +35,12 @@ module.exports = function(env) {
           use: ExtractTextPlugin.extract({
             use: [ { loader: 'css-loader' }, { loader: 'sass-loader' } ]
           })
+        },
+        {
+          test: /\.(png|svg)$/,
+          use: [
+            'file-loader'
+          ]
         },
         {
           test: /\.vue$/,
