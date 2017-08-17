@@ -91,6 +91,28 @@ export default {
     }
   },
   watch: {
+    itemType(n, o) {
+      const statDOM = document.body.querySelectorAll('div.stat');
+      for(let i = 0; i < statDOM.length; i++) {
+
+        const statSelectDOM = statDOM.item(i).querySelector('span.md-select-value');
+        const statOptionDOM = statDOM.item(i).querySelectorAll('option');
+        if(!statSelectDOM || !statOptionDOM) { console.error(`Couldn't find span.md-select value and/or option!`); continue; }
+
+        let statOptionSelectedDOM;
+        for(let j = 0; j < statOptionDOM.length; j++) {
+          if(statOptionDOM.item(j).selected) {
+            statOptionSelectedDOM = statOptionDOM.item(j);
+            break;
+          }
+        }
+
+        if(!statOptionSelectedDOM) { console.error(`Couldn't find stat option!`); continue; }
+
+        const r = rivenMap[statOptionSelectedDOM.value].display_name;
+        statSelectDOM.textContent = r instanceof Array ? r[this.itemType] : r;
+      }
+    },
     cost(n, o) {
       if(o < 10 || o > 18) return;
       if(n < 10) { this.$nextTick(() => this.cost = 10); n = 10; }
